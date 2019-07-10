@@ -59,7 +59,9 @@ export default class Main extends Component {
         </h1>
 
         <Form onSubmit={this.handleSubmit}>
+          <label htmlFor="repository-input">Repository name</label>
           <input
+            id="repository-input"
             type="text"
             placeholder="Add repository"
             value={newRepo}

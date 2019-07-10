@@ -12,6 +12,16 @@ export const Form = styled.form`
     border-radius: 4px;
     font-size: 16px;
   }
+
+  label {
+    clip-path: inset(100%);
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+    overflow: hidden;
+  }
 `;
 
 const rotate = keyframes`
