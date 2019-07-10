@@ -40,7 +40,15 @@ export default class Main extends Component {
     const { newRepo, repositories } = this.state;
 
     try {
-      const response = await api.get(`/repos/${newRepo}`);
+      if (
+        repositories.find(
+          repo => repo.name.toLowerCase() === newRepo.trim().toLowerCase()
+        )
+      ) {
+        throw new Error('Duplicated repo');
+      }
+
+      const response = await api.get(`/repos/${newRepo.trim()}`);
 
       const data = { name: response.data.full_name };
 
