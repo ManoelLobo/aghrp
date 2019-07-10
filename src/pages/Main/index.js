@@ -8,6 +8,22 @@ import { Container, Form, SubmitButton, List } from './styles';
 export default class Main extends Component {
   state = { newRepo: '', repositories: [], loading: false };
 
+  componentDidMount() {
+    const savedRepositories = localStorage.getItem('aghrp:repositories');
+
+    if (savedRepositories) {
+      this.setState({ repositories: JSON.parse(savedRepositories) });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { repositories } = this.state;
+
+    if (prevState.repositories !== repositories) {
+      localStorage.setItem('aghrp:repositories', JSON.stringify(repositories));
+    }
+  }
+
   handleInputChange = e => {
     this.setState({ newRepo: e.target.value });
   };
