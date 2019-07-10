@@ -10,7 +10,7 @@ import Container from '../../components/Container';
 import { Form, SubmitButton, List } from './styles';
 
 export default class Main extends Component {
-  state = { newRepo: '', repositories: [], loading: false };
+  state = { newRepo: '', repositories: [], loading: false, error: false };
 
   componentDidMount() {
     const savedRepositories = localStorage.getItem('aghrp:repositories');
@@ -39,19 +39,25 @@ export default class Main extends Component {
 
     const { newRepo, repositories } = this.state;
 
-    const response = await api.get(`/repos/${newRepo}`);
+    try {
+      const response = await api.get(`/repos/${newRepo}`);
 
-    const data = { name: response.data.full_name };
+      const data = { name: response.data.full_name };
 
-    this.setState({
-      repositories: [...repositories, data],
-      newRepo: '',
-      loading: false,
-    });
+      this.setState({
+        repositories: [...repositories, data],
+        newRepo: '',
+        error: false,
+      });
+    } catch (err) {
+      this.setState({ error: true });
+    }
+
+    this.setState({ loading: false });
   };
 
   render() {
-    const { newRepo, repositories, loading } = this.state;
+    const { newRepo, repositories, loading, error } = this.state;
 
     return (
       <Container>
@@ -60,7 +66,7 @@ export default class Main extends Component {
           Repositories
         </h1>
 
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} hasError={error}>
           <label htmlFor="repository-input">Repository name</label>
           <input
             id="repository-input"

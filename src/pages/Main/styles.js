@@ -7,7 +7,7 @@ export const Form = styled.form`
 
   input {
     flex: 1;
-    border: 1px solid #9eb3c7;
+    border: 1px solid ${props => (props.hasError ? '#e12d39' : '#9eb3c7')};
     padding: 10px 15px;
     border-radius: 4px;
     font-size: 16px;
